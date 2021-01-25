@@ -36,6 +36,8 @@ Route::group(['middleware' => ['auth']], function () {
 
         //members routes
         Route::resource('members', 'MemberController');
+        Route::get('membersdata', 'MemberController@view')->name('members.data');
+
 
         //settings routes
         Route::get('settings', 'SettingController@edit')->name('settings');

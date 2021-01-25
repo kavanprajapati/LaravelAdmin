@@ -136,5 +136,6 @@
     <!-- Custom Theme Scripts -->
     {{-- <script src="{{ asset('theme/build/js/custom.min.js') }}"></script> --}}
     <script src="{{ asset('theme/build/js/custom.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>

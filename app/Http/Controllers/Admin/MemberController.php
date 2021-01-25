@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Member;
 use Illuminate\Http\Request;
+use Yajra\Datatables\Datatables;
 
 class MemberController extends Controller
 {
@@ -14,6 +15,13 @@ class MemberController extends Controller
      */
     public function index()
     {
+        return view('admin.members.index');
+    }
+
+    public function view()
+    {
+        $data = Member::all();
+        return Datatables::of($data)->make(true);
         return view('admin.members.index');
     }
 
