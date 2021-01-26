@@ -37,6 +37,11 @@ Route::group(['middleware' => ['auth']], function () {
         //members routes
         Route::resource('members', 'MemberController');
         Route::get('membersdata', 'MemberController@view')->name('members.data');
+        Route::post('members/Active', 'MemberController@Active')->name('members.Active');
+        Route::post('members/Inactive', 'MemberController@Inactive')->name('members.Inactive');
+        Route::post('members/deleteAll', 'MemberController@deleteAll')->name('members.deleteAll');
+
+
 
 
         //settings routes

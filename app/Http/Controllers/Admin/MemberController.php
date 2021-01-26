@@ -20,9 +20,20 @@ class MemberController extends Controller
 
     public function view()
     {
-        $data = Member::all();
-        return Datatables::of($data)->make(true);
-        return view('admin.members.index');
+        $data = Member::orderby('id','desc')->get();
+        return Datatables::of($data)
+        ->addIndexColumn()
+        ->addColumn('checkbox', function ($data) {
+            return '<input type="checkbox" class="sub_chk" data-id="'.$data->id.'">';
+        })
+        ->addColumn('action', function ($data) {
+            return '<a href="members/'.$data->id.'" data-id="'.$data->id.'" data-text="member" title="View"><i class="glyphicon glyphicon-eye-open"></i></a> &nbsp;&nbsp;&nbsp;
+            <a href="members/'.$data->id.'/edit" data-id="'.$data->id.'" data-text="member" title="Edit"><i class="glyphicon glyphicon-edit"></i></a> &nbsp;&nbsp;&nbsp;
+            <a href="javascript:void(0)" class="single_delete" data-id="'.$data->id.'" data-text="member" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
+        })
+        ->removeColumn('password')
+        ->rawColumns(['checkbox','action'])
+        ->make(true);
     }
 
     /**
@@ -76,6 +87,21 @@ class MemberController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Member $member)
+    {
+        //
+    }
+
+    public function Active(Request $request, Member $member)
+    {
+        return $request->post();
+    }
+
+    public function Iactive(Request $request, Member $member)
+    {
+        //
+    }
+
+    public function deleteAll(Request $request, Member $member)
     {
         //
     }

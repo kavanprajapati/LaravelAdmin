@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf_token" content="{{ csrf_token() }}">
 	<link rel="icon" href="{{ asset('theme/production/images/favicon.ico') }}" type="image/ico" />
     <title>{{ isset($settings->app_name) ? $settings->app_name : Config::get('constants.app_name')  }}</title>
 
@@ -58,6 +58,31 @@
             </div>
         </div>
     </div>
+
+
+
+    <!-- Modals -->
+    <div class="modal fade bs-example-modal-xs" id="myActionModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-xs">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title" id="myActionModalLabel">Modal title</h4>
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <p id="myActionModalContent">My Modal content</p>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-success" id="MyActionModalBtn">Modal Action</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    <!-- Modals -->
+
+
     <!-- jQuery -->
     <script src="{{ asset('theme/vendors/jquery/dist/jquery.min.js') }}"></script>
     <!-- Popper JS -->
@@ -136,6 +161,7 @@
     <!-- Custom Theme Scripts -->
     {{-- <script src="{{ asset('theme/build/js/custom.min.js') }}"></script> --}}
     <script src="{{ asset('theme/build/js/custom.js') }}"></script>
+    <script src="{{ asset('theme/build/js/app.js') }}"></script>
     @stack('scripts')
 </body>
 </html>
