@@ -30,6 +30,7 @@
                                         <th>#ID</th>
                                         <th>Name</th>
                                         <th>Email</th>
+                                        <th>Status</th>
                                         <th>Action</th>
                                     </tr>
                                 </thead>
@@ -52,7 +53,7 @@ $(function() {
         pageLength: 10,
         columnDefs: [{
          'bSortable': false,
-         'aTargets': [0,4]
+         'aTargets': [0,4,5]
        }],
        "aaSorting": [
 
@@ -63,6 +64,7 @@ $(function() {
             { data: 'id', name: 'id' },
             { data: 'name', name: 'name' },
             { data: 'email', name: 'email' },
+            { data: 'status', name: 'status' },
             { data: 'action', name: 'action'},
         ],
     });

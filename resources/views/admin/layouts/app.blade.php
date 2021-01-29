@@ -75,7 +75,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-success" id="MyActionModalBtn">Modal Action</button>
+              <button type="button" class="" id="MyActionModalBtn">Modal Action</button>
             </div>
           </div>
         </div>

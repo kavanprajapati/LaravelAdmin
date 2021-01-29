@@ -20,20 +20,30 @@ class MemberController extends Controller
 
     public function view()
     {
-        $data = Member::orderby('id','desc')->get();
+        $data = Member::where('status', '!=', '2')->orderby('id', 'desc')->get();
         return Datatables::of($data)
-        ->addIndexColumn()
-        ->addColumn('checkbox', function ($data) {
-            return '<input type="checkbox" class="sub_chk" data-id="'.$data->id.'">';
-        })
-        ->addColumn('action', function ($data) {
-            return '<a href="members/'.$data->id.'" data-id="'.$data->id.'" data-text="member" title="View"><i class="glyphicon glyphicon-eye-open"></i></a> &nbsp;&nbsp;&nbsp;
-            <a href="members/'.$data->id.'/edit" data-id="'.$data->id.'" data-text="member" title="Edit"><i class="glyphicon glyphicon-edit"></i></a> &nbsp;&nbsp;&nbsp;
-            <a href="javascript:void(0)" class="single_delete" data-id="'.$data->id.'" data-text="member" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
-        })
-        ->removeColumn('password')
-        ->rawColumns(['checkbox','action'])
-        ->make(true);
+            ->addIndexColumn()
+            ->addColumn('checkbox', function ($data) {
+                return '<input type="checkbox" name="sub_chk" class="sub_chk" data-id="' . $data->id . '">';
+            })
+            ->addColumn('action', function ($data) {
+                return '<a href="members/' . $data->id . '" data-id="' . $data->id . '" data-text="member" title="View"><i class="glyphicon glyphicon-eye-open"></i></a> &nbsp;&nbsp;&nbsp;
+
+                <a href="members/' . $data->id . '/edit" data-id="' . $data->id . '" data-text="member" title="Edit"><i class="glyphicon glyphicon-edit"></i></a> &nbsp;&nbsp;&nbsp;
+
+                <a href="javascript:void(0)" class="single_delete" data-id="' . $data->id . '" data-text="member" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
+            })
+            ->addColumn('status', function ($data) {
+                if ($data->status == 1) {
+                    $statuslabel = '<span class="badge badge-success status-label">Active</span>';
+                } else {
+                    $statuslabel = '<span class="badge badge-warning status-label">Inactive</span>';
+                }
+                return $statuslabel;
+            })
+            ->removeColumn('password')
+            ->rawColumns(['checkbox', 'status', 'action'])
+            ->make(true);
     }
 
     /**
@@ -93,17 +103,35 @@ class MemberController extends Controller
 
     public function Active(Request $request, Member $member)
     {
-        return $request->post();
+        $ids = explode(",", $request->ids);
+        $isActiated = Member::whereIn('id', $ids)->update(['status' => 1]);
+        if (!empty($isActiated)) {
+            return response()->json(['responseStatus' => 1]);
+        } else {
+            return response()->json(['responseStatus' => 0]);
+        }
     }
 
-    public function Iactive(Request $request, Member $member)
+    public function Inactive(Request $request, Member $member)
     {
-        //
+        $ids = explode(",", $request->ids);
+        $isInactiated = Member::whereIn('id', $ids)->update(['status' => 0]);
+        if (!empty($isInactiated)) {
+            return response()->json(['responseStatus' => 1]);
+        } else {
+            return response()->json(['responseStatus' => 0]);
+        }
     }
 
     public function deleteAll(Request $request, Member $member)
     {
-        //
+        $ids = explode(",", $request->ids);
+        $isDeleted = Member::whereIn('id', $ids)->update(['status' => 2]);
+        if (!empty($isDeleted)) {
+            return response()->json(['responseStatus' => 1]);
+        } else {
+            return response()->json(['responseStatus' => 0]);
+        }
     }
 
     /**

@@ -6327,3 +6327,9 @@ span.required {
 .action-btn{
  margin-right: 50px !important;
 }
+span.status-label {
+    width: 100%;
+    height: 20px;
+    line-height: 15px;
+    font-size: 10px;
+}
