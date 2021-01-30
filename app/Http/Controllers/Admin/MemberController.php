@@ -27,11 +27,13 @@ class MemberController extends Controller
                 return '<input type="checkbox" name="sub_chk" class="sub_chk" data-id="' . $data->id . '">';
             })
             ->addColumn('action', function ($data) {
+
+                $url = "'members/$data->id'";
                 return '<a href="members/' . $data->id . '" data-id="' . $data->id . '" data-text="member" title="View"><i class="glyphicon glyphicon-eye-open"></i></a> &nbsp;&nbsp;&nbsp;
 
                 <a href="members/' . $data->id . '/edit" data-id="' . $data->id . '" data-text="member" title="Edit"><i class="glyphicon glyphicon-edit"></i></a> &nbsp;&nbsp;&nbsp;
 
-                <a href="javascript:void(0)" class="single_delete" data-id="' . $data->id . '" data-text="member" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
+                <a href="javascript:void(0)" class="single_delete" onclick="deleteRecord(' . $data->id . ', \'member\',' . $url . ')" data-id="' . $data->id . '" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
             })
             ->addColumn('status', function ($data) {
                 if ($data->status == 1) {
@@ -140,8 +142,13 @@ class MemberController extends Controller
      * @param  \App\Member  $member
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Member $member)
+    public function destroy($id)
     {
-        //
+        $isDeleted = Member::where('id', $id)->update(['status' => 2]);
+        if (!empty($isDeleted)) {
+            return response()->json(['responseStatus' => 1]);
+        } else {
+            return response()->json(['responseStatus' => 0]);
+        }
     }
 }

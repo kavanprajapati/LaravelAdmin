@@ -9,6 +9,49 @@ $('#master-check').on('click', function (e) {
     }
 });
 
+// Delete Single Record Action
+deleteRecord = (delID, moduleName, delUrl) => {
+    // console.log(delID,moduleName,delUrl); return
+    let dataObj = { currentURl: delUrl, moduleName: moduleName };
+    let stringObj = JSON.stringify(dataObj);
+    $('#myActionModal').modal('show');
+    $("#myActionModalLabel").text('Delete');
+    document.getElementById('myActionModalContent').innerText = `Delete`;
+    document.getElementById('myActionModalContent').innerHTML = `Are you sure you want to delete this ${moduleName} ?`;
+    document.getElementById('MyActionModalBtn').setAttribute('onclick', `deleteSingle("${delID}",${stringObj})`);
+    document.getElementById("MyActionModalBtn").className = "btn btn-danger";
+    document.getElementById('MyActionModalBtn').innerHTML = `Delete`;
+}
+
+deleteSingle = (delID, dataObj) => {
+    // console.log(delID, dataObj);
+    $('#myActionModal').modal('hide');
+    $.ajax({
+        url: dataObj.currentURl,
+        type: 'POST',
+        headers: { 'X-CSRF-TOKEN': csrf },
+        dataType: 'json',
+        data: { _method: 'DELETE' },
+        success: function (responseData) {
+            $(`#${tabId}`).DataTable().ajax.reload();
+            $("#master-check").prop('checked', false);
+            if (responseData['responseStatus'] === 1) {
+                $("#message-green").show().fadeOut(7000);
+                document.getElementById('message-green-succ').innerHTML = `Success! ${dataObj.moduleName} deleted successfully!`;
+            } else {
+                $("#message-red").show().fadeOut(7000);
+                document.getElementById('message-red-err').innerHTML = 'Error! Oops..some error occured!';
+                setTimeout(() => {
+                    location.reload();
+                }, 3000);
+            }
+        },
+        error: function (responseData) {
+            alert('Oops...! something wrong');
+        }
+    });
+}
+
 // Active Action
 document.querySelector('.active_all').addEventListener("click", (e) => {
     //console.log(e.target.getAttribute('data-url')); return
@@ -54,7 +97,8 @@ document.querySelector('.active_all').addEventListener("click", (e) => {
 
 });
 
-function makeActive(allVals, dataObj) {
+
+makeActive = (allVals, dataObj) => {
     $('#myActionModal').modal('hide');
     $.ajax({
         url: dataObj.currentURl,
@@ -127,7 +171,8 @@ document.querySelector('.Inactive_all').addEventListener("click", (e) => {
 
 });
 
-function makeInactive(allVals, dataObj) {
+
+makeInactive = (allVals, dataObj) => {
     $('#myActionModal').modal('hide');
     $.ajax({
         url: dataObj.currentURl,
@@ -201,7 +246,7 @@ document.querySelector('.delete_all').addEventListener("click", (e) => {
 });
 
 
-function DeleteAll(allVals, dataObj) {
+DeleteAll = (allVals, dataObj) => {
     $('#myActionModal').modal('hide');
     $.ajax({
         url: dataObj.currentURl,
