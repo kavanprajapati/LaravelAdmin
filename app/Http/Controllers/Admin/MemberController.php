@@ -37,9 +37,10 @@ class MemberController extends Controller
             })
             ->addColumn('status', function ($data) {
                 if ($data->status == 1) {
-                    $statuslabel = '<span class="badge badge-success status-label">Active</span>';
+                    $statuslabel = '<span class="badge badge-success status-label">Active</span>
+                    ';
                 } else {
-                    $statuslabel = '<span class="badge badge-warning status-label">Inactive</span>';
+                    $statuslabel = '<span class="badge bg-warning status-label">Inactive</span>';
                 }
                 return $statuslabel;
             })
