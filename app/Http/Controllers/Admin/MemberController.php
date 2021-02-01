@@ -33,7 +33,7 @@ class MemberController extends Controller
 
                 <a href="members/' . $data->id . '/edit" data-id="' . $data->id . '" data-text="member" title="Edit"><i class="glyphicon glyphicon-edit"></i></a> &nbsp;&nbsp;&nbsp;
 
-                <a href="javascript:void(0)" class="single_delete" onclick="deleteRecord(' . $data->id . ', \'member\',' . $url . ')" data-id="' . $data->id . '" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
+                <a href="javascript:void(0)" class="single_delete" onclick="deleteRecord(\'member\',' . $url . ')" data-id="' . $data->id . '" title="Delete"><i class="glyphicon glyphicon-trash"></i></a>';
             })
             ->addColumn('status', function ($data) {
                 if ($data->status == 1) {

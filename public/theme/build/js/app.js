@@ -10,21 +10,19 @@ $('#master-check').on('click', function (e) {
 });
 
 // Delete Single Record Action
-deleteRecord = (delID, moduleName, delUrl) => {
-    // console.log(delID,moduleName,delUrl); return
+deleteRecord = (moduleName, delUrl) => {
     let dataObj = { currentURl: delUrl, moduleName: moduleName };
     let stringObj = JSON.stringify(dataObj);
     $('#myActionModal').modal('show');
     $("#myActionModalLabel").text('Delete');
     document.getElementById('myActionModalContent').innerText = `Delete`;
     document.getElementById('myActionModalContent').innerHTML = `Are you sure you want to delete this ${moduleName} ?`;
-    document.getElementById('MyActionModalBtn').setAttribute('onclick', `deleteSingle("${delID}",${stringObj})`);
+    document.getElementById('MyActionModalBtn').setAttribute('onclick', `deleteSingle(${stringObj})`);
     document.getElementById("MyActionModalBtn").className = "btn btn-danger";
     document.getElementById('MyActionModalBtn').innerHTML = `Delete`;
 }
 
-deleteSingle = (delID, dataObj) => {
-    // console.log(delID, dataObj);
+deleteSingle = (dataObj) => {
     $('#myActionModal').modal('hide');
     $.ajax({
         url: dataObj.currentURl,
@@ -54,7 +52,6 @@ deleteSingle = (delID, dataObj) => {
 
 // Active Action
 document.querySelector('.active_all').addEventListener("click", (e) => {
-    //console.log(e.target.getAttribute('data-url')); return
     let allVals = [];
     let checkboxes = document.querySelectorAll('input[name="sub_chk"]:checked');
 
@@ -128,7 +125,6 @@ makeActive = (allVals, dataObj) => {
 
 // Inactive Action
 document.querySelector('.Inactive_all').addEventListener("click", (e) => {
-    //console.log(e.target.getAttribute('data-url')); return
     let allVals = [];
     let checkboxes = document.querySelectorAll('input[name="sub_chk"]:checked');
 
@@ -202,7 +198,6 @@ makeInactive = (allVals, dataObj) => {
 
 // DeleteAll Action
 document.querySelector('.delete_all').addEventListener("click", (e) => {
-    //console.log(e.target.getAttribute('data-url')); return
     let allVals = [];
     let checkboxes = document.querySelectorAll('input[name="sub_chk"]:checked');
 
