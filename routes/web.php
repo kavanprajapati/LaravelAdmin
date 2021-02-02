@@ -34,6 +34,13 @@ Route::group(['middleware' => ['auth']], function () {
 
         Route::get('/home', 'HomeController@index')->name('home');
 
+        //Admin profile routes
+        Route::get('profile/{id}', 'AdminController@show')->name('profile');
+        Route::get('editprofile/{id}', 'AdminController@edit')->name('editprofile');
+        Route::post('updateprofile', 'AdminController@update')->name('updateprofile');
+        Route::post('changeimage', 'AdminController@changeImage')->name('changeimage');
+
+
         //members routes
         Route::resource('members', 'MemberController');
         Route::get('membersdata', 'MemberController@view')->name('members.data');

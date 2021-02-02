@@ -1,7 +1,9 @@
 console.log('yes app.js');
-
-const msgTimeOut = 500;
-const msgFadeOut = 7000;
+const appProtocol = location.protocol;
+const appHost = location.host;
+const appOrigin = `${appProtocol}//${appHost}`;
+const msgTimeOut = 500; // show messsage after getting response
+const msgFadeOut = 7000; // remove message after display in seconds
 const csrf = document.querySelector('meta[name="csrf_token"]').content;
 
 $('#master-check').on('click', function (e) {
@@ -37,7 +39,7 @@ deleteSingle = (dataObj) => {
         success: function (responseData) {
             $(`#${tabId}`).DataTable().ajax.reload();
             $("#master-check").prop('checked', false);
-            if (responseData['responseStatus'] === 1) {
+            if (responseData['responseStatus'] == 1) {
                 setTimeout(() => {
                     $("#message-green").show().fadeOut(msgFadeOut);
                     document.getElementById('message-green-succ').innerHTML = `Success! ${dataObj.moduleName} deleted successfully!`;
@@ -114,7 +116,7 @@ makeActive = (allVals, dataObj) => {
         success: function (responseData) {
             $(`#${tabId}`).DataTable().ajax.reload();
             $("#master-check").prop('checked', false);
-            if (responseData['responseStatus'] === 1) {
+            if (responseData['responseStatus'] == 1) {
                 setTimeout(() => {
                     $("#message-green").show().fadeOut(msgFadeOut);
                     document.getElementById('message-green-succ').innerHTML = `Success! ${dataObj.moduleName} activated successfully!`;
@@ -192,7 +194,7 @@ makeInactive = (allVals, dataObj) => {
         success: function (responseData) {
             $(`#${tabId}`).DataTable().ajax.reload();
             $("#master-check").prop('checked', false);
-            if (responseData['responseStatus'] === 1) {
+            if (responseData['responseStatus'] == 1) {
                 setTimeout(() => {
                     $("#message-green").show().fadeOut(msgFadeOut);
                     document.getElementById('message-green-succ').innerHTML = `Success! ${dataObj.moduleName} inactivated successfully!`;
@@ -270,7 +272,7 @@ DeleteAll = (allVals, dataObj) => {
         success: function (responseData) {
             $(`#${tabId}`).DataTable().ajax.reload();
             $("#master-check").prop('checked', false);
-            if (responseData['responseStatus'] === 1) {
+            if (responseData['responseStatus'] == 1) {
                 setTimeout(() => {
                     $("#message-green").show().fadeOut(msgFadeOut);
                     document.getElementById('message-green-succ').innerHTML = `Success! ${dataObj.moduleName} deleted successfully!`;
@@ -283,6 +285,58 @@ DeleteAll = (allVals, dataObj) => {
             }
         },
         error: function (responseData) {
+            alert('Oops...! something wrong');
+        }
+    });
+}
+
+
+// Logout Action
+logOut = () => {
+    $('#myActionModal').modal('show');
+    $("#myActionModalLabel").text('Logout');
+    document.getElementById('myActionModalContent').innerText = `Logout`;
+    document.getElementById('myActionModalContent').innerHTML = `Are you sure you want to logout?`;
+    document.getElementById('MyActionModalBtn').setAttribute('onclick', `loggedOut()`);
+    document.getElementById("MyActionModalBtn").className = "btn btn-danger";
+    document.getElementById('MyActionModalBtn').innerHTML = `Logout`;
+}
+
+loggedOut = () => {
+    $('#myActionModal').modal('hide');
+    $.ajax({
+        url: `${appOrigin}/logout`,
+        type: 'POST',
+        headers: { 'X-CSRF-TOKEN': csrf },
+        success: function () {
+            location.href=`${appOrigin}/login`;
+        },
+        error: function () {
+            alert('Oops...! something wrong');
+        }
+    });
+}
+
+
+// Change Admin Image
+changeImage = (id) => {
+    let url = jQuery('#adminImage').attr('data-url');
+    let file_data = jQuery('#adminImage').prop('files')[0];
+    let form_data = new FormData();
+    form_data.append('adminImage',file_data);
+    form_data.append('id',id);
+
+    $.ajax({
+        url:   url,
+        type: 'POST',
+        headers: { 'X-CSRF-TOKEN': csrf },
+        data : form_data,
+        processData: false,
+        contentType: false,
+        success: function (response) {
+            location.reload(true);
+        },
+        error: function () {
             alert('Oops...! something wrong');
         }
     });

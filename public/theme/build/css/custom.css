@@ -6324,12 +6324,47 @@ span.required {
 .table-responsive {
     overflow: hidden;
 }
-.action-btn{
- margin-right: 50px !important;
+.action-btn {
+    margin-right: 50px !important;
 }
 span.status-label {
     width: 100%;
     height: 20px;
     line-height: 15px;
     font-size: 10px;
+}
+.edit-btn {
+    color: white !important;
+}
+.avtar-admin {
+    position: relative;
+    overflow: hidden;
+    transition: transform .4s ease;
+}
+.pencil-icon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+.avtar-admin:hover .pencil-icon{
+  opacity: 1;
+  z-index: 2;
+}
+.avatar-view {
+  transition: all 0.4s ease-in-out;
+  border-radius: 50%;
+  background-color: rgba(0,0,0,0.5);
+}
+.avatar-view:hover{
+  transform: scale(1.2);
+  transition: transform 2s ease;
+  border-radius: 50%;
+}
+.avtar-admin:hover{
+  /* transform: translateY(-34px); */
+}
+.avtar-admin:hover .avatar-view {
+  opacity: 0.3;
 }

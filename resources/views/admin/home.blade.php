@@ -1,4 +1,6 @@
-@extends('admin.layouts.app') @section('content')
+@extends('admin.layouts.app')
+@section('content')
+@section('pageTitle', 'Home')
 <div class="content">
     <!-- page content -->
     <div class="right_col" role="main">

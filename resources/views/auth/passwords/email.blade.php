@@ -1,6 +1,6 @@
-@extends('admin.layouts.app')
+@extends('admin.layouts.login_layout')
 
-@section('content')
+@section('loginContent')
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">

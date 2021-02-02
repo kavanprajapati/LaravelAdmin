@@ -6,7 +6,13 @@
     <!-- CSRF Token -->
     <meta name="csrf_token" content="{{ csrf_token() }}">
 	<link rel="icon" href="{{ asset('theme/production/images/favicon.ico') }}" type="image/ico" />
-    <title>{{ isset($settings->app_name) ? $settings->app_name : Config::get('constants.app_name')  }}</title>
+    <title>
+        @if(View::hasSection('pageTitle'))
+           @yield('pageTitle')
+        @else
+           {{ isset($settings->app_name) ? $settings->app_name : Config::get('constants.app_name')  }}
+        @endif
+    </title>
 
     <!-- Bootstrap -->
     <link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
@@ -45,7 +51,7 @@
     <link href="{{ asset('theme/build/css/custom.css') }}" rel="stylesheet">
     {{-- <link href="{{ asset('theme/build/css/custom.min.css') }}" rel="stylesheet"> --}}
 </head>
-<body  class="nav-md">
+<body class="nav-md">
     <div class="main-wrapper" id="app">
         <div class="container body">
             <div class="main_container">
@@ -58,7 +64,6 @@
             </div>
         </div>
     </div>
-
 
 
     <!-- Modals -->

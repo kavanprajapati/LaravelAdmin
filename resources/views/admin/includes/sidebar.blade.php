@@ -8,7 +8,7 @@
           <!-- menu profile quick info -->
           <div class="profile clearfix">
             <div class="profile_pic">
-              <img src="{{ Auth::user()->profile }}" alt="..." class="img-circle profile_img">
+              <img src="{{ Storage::url('admin/'.Auth::user()->profile.'') }}" alt="..." class="img-circle profile_img">
             </div>
             <div class="profile_info">
               <span>Welcome,</span>
@@ -36,7 +36,7 @@
             <a data-toggle="tooltip" data-placement="top" title="Settings" href="{{ route('admin.settings') }}">
               <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
             </a>
-            <a data-toggle="tooltip" data-placement="top" title="Logout" href="{{ route('logout') }}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+            <a data-toggle="tooltip" data-placement="top" title="Logout" onclick="logOut()">
               <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
             </a>
           </div>
