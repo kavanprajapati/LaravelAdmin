@@ -1,6 +1,5 @@
 @extends('admin.layouts.app')
 @section('content')
-@section('pageTitle', 'Settings')
 <div class="content">
 <!-- page content -->
     <div class="right_col" role="main">

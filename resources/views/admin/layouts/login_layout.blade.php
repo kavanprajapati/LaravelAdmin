@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="icon" href="{{ isset($settings->app_favicon) ? Storage::url('settings/'.$settings->app_favicon.'') : asset('theme/production/images/favicon.ico') }}" type="image/ico" />
     <title>
         @if(View::hasSection('pageTitle'))
            @yield('pageTitle')
@@ -23,14 +24,8 @@
 
         <!-- Custom Theme Style -->
         <link href="{{ asset('theme/build/css/custom.css') }}" rel="stylesheet">
-        <link href="{{ asset('theme/build/css/custom.min.css') }}" rel="stylesheet">
-    <style>
-        body{
-            background-color: white;
-        }
-    </style>
 </head>
-<body>
+<body class="login">
 
     @yield('loginContent')
 
@@ -42,6 +37,5 @@
     {{-- <script src="{{ asset('theme/vendors/fastclick/lib/fastclick.js') }}"></script>
     <script src="{{ asset('theme/vendors/nprogress/nprogress.js') }}"></script> --}}
     <script src="{{ asset('theme/vendors/validator/validator.js') }}"></script>
-    <script src="{{ asset('theme/build/js/custom.min.js') }}"></script>
 </body>
 </html>

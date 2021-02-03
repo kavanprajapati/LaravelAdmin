@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- CSRF Token -->
     <meta name="csrf_token" content="{{ csrf_token() }}">
-	<link rel="icon" href="{{ asset('theme/production/images/favicon.ico') }}" type="image/ico" />
+	<link rel="icon" href="{{ isset($settings->app_favicon) ? Storage::url('settings/'.$settings->app_favicon.'') : asset('theme/production/images/favicon.ico') }}" type="image/ico" />
     <title>
         @if(View::hasSection('pageTitle'))
            @yield('pageTitle')

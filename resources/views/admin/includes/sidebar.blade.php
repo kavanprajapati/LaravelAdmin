@@ -8,7 +8,7 @@
           <!-- menu profile quick info -->
           <div class="profile clearfix">
             <div class="profile_pic">
-              <img src="{{ Storage::url('admin/'.Auth::user()->profile.'') }}" alt="..." class="img-circle profile_img">
+              <img src="{{ Storage::url('admin/'.Auth::user()->profile.'') }}" alt="..." class="img-circle profile_img admin-avtar">
             </div>
             <div class="profile_info">
               <span>Welcome,</span>

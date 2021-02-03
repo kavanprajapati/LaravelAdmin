@@ -52,7 +52,8 @@ Route::group(['middleware' => ['auth']], function () {
 
 
         //settings routes
-        Route::get('settings', 'SettingController@edit')->name('settings');
+        Route::get('settings/show', 'SettingController@show')->name('settings.show');
+        Route::get('settings', 'SettingController@edit')->name('settings.edit');
         Route::post('settings', 'SettingController@update')->name('settings');
     });
 });

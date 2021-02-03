@@ -2,6 +2,7 @@ console.log('yes app.js');
 const appProtocol = location.protocol;
 const appHost = location.host;
 const appOrigin = `${appProtocol}//${appHost}`;
+const storagePath = `${appOrigin}/storage/`;
 const msgTimeOut = 500; // show messsage after getting response
 const msgFadeOut = 7000; // remove message after display in seconds
 const csrf = document.querySelector('meta[name="csrf_token"]').content;
@@ -15,7 +16,7 @@ $('#master-check').on('click', function (e) {
 });
 
 // Delete Single Record Action
-deleteRecord = (moduleName, delUrl) => {
+const deleteRecord = (moduleName, delUrl) => {
     let dataObj = { currentURl: delUrl, moduleName: moduleName };
     let stringObj = JSON.stringify(dataObj);
     $('#myActionModal').modal('show');
@@ -27,7 +28,7 @@ deleteRecord = (moduleName, delUrl) => {
     document.getElementById('MyActionModalBtn').innerHTML = `Delete`;
 }
 
-deleteSingle = (dataObj) => {
+const deleteSingle = (dataObj) => {
     let tabId = document.querySelector('table').id;
     $('#myActionModal').modal('hide');
     $.ajax({
@@ -58,7 +59,7 @@ deleteSingle = (dataObj) => {
 }
 
 // Active Action
-let activeAll = document.querySelector('.active_all');
+const activeAll = document.querySelector('.active_all');
 if (activeAll) {
     activeAll.addEventListener("click", (e) => {
         let allVals = [];
@@ -105,7 +106,7 @@ if (activeAll) {
 }
 
 
-makeActive = (allVals, dataObj) => {
+const makeActive = (allVals, dataObj) => {
     let tabId = document.querySelector('table').id;
     $('#myActionModal').modal('hide');
     $.ajax({
@@ -136,7 +137,7 @@ makeActive = (allVals, dataObj) => {
 
 
 // Inactive Action
-let inactiveAll = document.querySelector('.Inactive_all');
+const inactiveAll = document.querySelector('.Inactive_all');
 if (inactiveAll) {
     inactiveAll.addEventListener("click", (e) => {
         let allVals = [];
@@ -183,7 +184,7 @@ if (inactiveAll) {
 }
 
 
-makeInactive = (allVals, dataObj) => {
+const makeInactive = (allVals, dataObj) => {
     let tabId = document.querySelector('table').id;
     $('#myActionModal').modal('hide');
     $.ajax({
@@ -214,7 +215,7 @@ makeInactive = (allVals, dataObj) => {
 
 
 // DeleteAll Action
-let deleteAll = document.querySelector('.delete_all');
+const deleteAll = document.querySelector('.delete_all');
 if (deleteAll) {
     deleteAll.addEventListener("click", (e) => {
         let allVals = [];
@@ -261,7 +262,7 @@ if (deleteAll) {
 }
 
 
-DeleteAll = (allVals, dataObj) => {
+const DeleteAll = (allVals, dataObj) => {
     let tabId = document.querySelector('table').id;
     $('#myActionModal').modal('hide');
     $.ajax({
@@ -292,7 +293,7 @@ DeleteAll = (allVals, dataObj) => {
 
 
 // Logout Action
-logOut = () => {
+const logOut = () => {
     $('#myActionModal').modal('show');
     $("#myActionModalLabel").text('Logout');
     document.getElementById('myActionModalContent').innerText = `Logout`;
@@ -302,14 +303,14 @@ logOut = () => {
     document.getElementById('MyActionModalBtn').innerHTML = `Logout`;
 }
 
-loggedOut = () => {
+const loggedOut = () => {
     $('#myActionModal').modal('hide');
     $.ajax({
         url: `${appOrigin}/logout`,
         type: 'POST',
         headers: { 'X-CSRF-TOKEN': csrf },
         success: function () {
-            location.href=`${appOrigin}/login`;
+            location.href = `${appOrigin}/login`;
         },
         error: function () {
             alert('Oops...! something wrong');
@@ -319,26 +320,59 @@ loggedOut = () => {
 
 
 // Change Admin Image
-changeImage = (id) => {
-    let url = jQuery('#adminImage').attr('data-url');
+const changeImage = (id) => {
+    let url = document.getElementById("adminImage").getAttribute("data-url");
     let file_data = jQuery('#adminImage').prop('files')[0];
     let form_data = new FormData();
-    form_data.append('adminImage',file_data);
-    form_data.append('id',id);
+    form_data.append('adminImage', file_data);
+    form_data.append('id', id);
 
     $.ajax({
-        url:   url,
+        url: url,
         type: 'POST',
         headers: { 'X-CSRF-TOKEN': csrf },
-        data : form_data,
+        data: form_data,
         processData: false,
         contentType: false,
-        success: function (response) {
-            location.reload(true);
+        success: function (responseData) {
+            if (responseData['responseStatus'] == 1) {
+                let avatarImages = document.getElementsByClassName("admin-avtar");
+                Array.from(avatarImages).forEach(element => {
+                    element.src = `${storagePath}/admin/${responseData['imgName']}`;
+                });
+                $("#message-green").show().fadeOut(msgFadeOut);
+                document.getElementById('message-green-succ').innerHTML = `Success! Profile picture updated successfully !`;
+            } else {
+                setTimeout(() => {
+                    $("#message-red").show().fadeOut(msgFadeOut);
+                    document.getElementById('message-red-err').innerHTML = 'Error! Oops..some error occured while uploading image!';
+                }, msgTimeOut);
+            }
         },
         error: function () {
             alert('Oops...! something wrong');
         }
     });
+}
+
+
+// Preview Image Change
+const previewImage = (event) => {
+    let reader = new FileReader();
+    reader.onload = function () {
+        let output = document.getElementById("imgPreview");
+        output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+// Preview 1 Image Change
+const previewImage1 = (event) => {
+    let reader = new FileReader();
+    reader.onload = function () {
+        let output = document.getElementById("imgPreview1");
+        output.src = reader.result;
+    };
+    reader.readAsDataURL(event.target.files[0]);
 }
 

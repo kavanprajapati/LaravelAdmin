@@ -22,7 +22,7 @@
                                     <input type="file" id="adminImage" data-url="{{ route('admin.changeimage') }}" name="adminImage" accept="image/*" onchange="changeImage({{ Auth::user()->id }})"
                                         capture  style="display:none"/>
                                     <div class="avtar-admin">
-                                        <img src="{{ Storage::url('admin/'.$adminData->profile.'') }}" id="adminImg" class="img-fluid avatar-view" alt="" />
+                                        <img src="{{ Storage::url('admin/'.$adminData->profile.'') }}" id="adminImg" class="img-fluid avtar-view admin-avtar" alt="Profile Image" title="Change Image"/>
                                         <div class="pencil-icon">
                                             <i class="fa fa-pencil"></i>
                                         </div>

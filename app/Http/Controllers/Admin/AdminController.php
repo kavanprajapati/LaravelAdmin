@@ -10,6 +10,11 @@ use File;
 class AdminController extends Controller
 {
 
+    public function __construct()
+    {
+        $this->publicPath = public_path("/storage/admin/");
+    }
+
     public function validateRequest($id = "")
     {
         $validateData = request()->validate([
@@ -67,29 +72,27 @@ class AdminController extends Controller
     public function changeImage(Request $request)
     {
         $id = $request->post('id');
-        $adminImage = $request->file('adminImage');
-
         $admin = User::find($id);
-        $isUpload = $this->storeImage($admin);
-
-        if (!empty($isUpload)) {
-            echo 1;
-        } else {
-            echo 0;
-        }
-    }
-
-    public function storeImage($admin)
-    {
-        if (request()->has('adminImage')) {
-            $avatarImage = 'ADMIN_' . time() . '.' . request()->adminImage->extension();
-            $admin = User::find($admin->id);
-            $admin->profile = $avatarImage;
-            $admin->save();
-            if ($admin) {
-                $path = request()->adminImage->storeAs('public/admin', $avatarImage);
+        $image_path = $this->publicPath . $admin->profile;
+        if ($request->hasFile('adminImage')) {
+            if (File::exists($image_path)) {
+                File::delete($image_path);
             }
+            $adminProfile = $request->file('adminImage');
+            $imgName = 'ADMIN' . time() . '.' . $adminProfile->extension();
+            $destinationPath = $this->publicPath;
+            $adminProfile->move($destinationPath, $imgName);
+        } else {
+            $imgName = $admin->profile;
         }
-        return $path;
+
+        $admin->profile = $imgName;
+        $admin->save();
+
+        if (!empty($imgName) && !empty($admin->profile)) {
+            return response()->json(['responseStatus' => 1,'imgName'=>$imgName]);
+        } else {
+            return response()->json(['responseStatus' => 0,'imgName'=>$imgName]);
+        }
     }
 }
