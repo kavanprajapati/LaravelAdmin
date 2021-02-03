@@ -61,10 +61,10 @@ class SettingController extends Controller
         $setting = Setting::find($id);
 
         // APP LOGO
-        $image_path = $this->publicPath . $setting->app_logo;
+        $imagePath = $this->publicPath . $setting->app_logo;
         if ($request->hasFile('app_logo')) {
-            if (File::exists($image_path)) {
-                File::delete($image_path);
+            if (File::exists($imagePath)) {
+                File::delete($imagePath);
             }
             $appLogo = $request->file('app_logo');
             $imgName = 'APP_LOGO_' . time() . '.' . $appLogo->extension();
@@ -75,10 +75,10 @@ class SettingController extends Controller
         }
 
         // APP FAVICON
-        $image_path_favicon = $this->publicPath . $setting->app_favicon;
+        $imagePathFavicon = $this->publicPath . $setting->app_favicon;
         if ($request->hasFile('app_favicon')) {
-            if (File::exists($image_path_favicon)) {
-                File::delete($image_path_favicon);
+            if (File::exists($imagePathFavicon)) {
+                File::delete($imagePathFavicon);
             }
             $appFavIcon = $request->file('app_favicon');
             $imgNameFavicon = 'APP_FAVICON_' . time() . '.' . $appFavIcon->extension();

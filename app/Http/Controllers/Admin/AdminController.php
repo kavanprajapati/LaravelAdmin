@@ -73,10 +73,10 @@ class AdminController extends Controller
     {
         $id = $request->post('id');
         $admin = User::find($id);
-        $image_path = $this->publicPath . $admin->profile;
+        $imagePath = $this->publicPath . $admin->profile;
         if ($request->hasFile('adminImage')) {
-            if (File::exists($image_path)) {
-                File::delete($image_path);
+            if (File::exists($imagePath)) {
+                File::delete($imagePath);
             }
             $adminProfile = $request->file('adminImage');
             $imgName = 'ADMIN' . time() . '.' . $adminProfile->extension();
