@@ -2,7 +2,7 @@
 @section('action-content')
 @section('pageTitle', 'App Settings')
 <div class="row">
-    <div class="col-md-12 col-sm-12 ">
+    <div class="col-md-12 col-sm-12">
         <div class="x_panel">
             <div class="x_title">
                 <h2>App Settings <small>(Global settings of the App)</small></h2>
@@ -15,7 +15,7 @@
             </div>
             <div class="x_content">
                 <br />
-                <div class="col-md-12 col-sm-12">
+                <div class="col-md-6 col-sm-6">
                     <div class="table-responsive">
                         <table class="table">
                             <tbody>
